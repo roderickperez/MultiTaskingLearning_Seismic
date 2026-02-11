@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+data/
+*.npy
+*.dat
+*.Zone.Identifier
+pdf_content.txt
