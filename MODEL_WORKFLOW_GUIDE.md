@@ -21,6 +21,36 @@ uv run python src/main3_refine.py \
     --n1 128 --n2 128 --n3 128
 ```
 
+---
+
+## 2. Interactive Setup (NEW)
+
+Instead of manually typing long CLI commands, you can use the new interactive terminal interface (TUI). This provides a guided setup with detailed parameter descriptions from the reference paper.
+
+
+### How to Run
+#### Option 1: Using `uv run` (Recommended)
+This automatically handles environment activation for a single command.
+```bash
+uv run python interactive_train.py
+```
+
+#### Option 2: Manual Activation
+If you prefer to activate the environment once and run commands normally:
+```bash
+# Activate the environment
+source .venv/bin/activate
+
+# Run the script directly
+python interactive_train.py
+```
+
+### Features
+- **MTLS Banner**: A stylized, colorful ASCII header.
+- **Guided Selection**: Interactive prompts for all training parameters.
+- **Contextual Help**: Detailed descriptions of RGT, DHR, and Fault attributes as you select them.
+- **Safety Checks**: Shows you the final command and asks for confirmation before starting.
+
 ### Key Parameters:
 - `--ntrain`: Number of training samples to use.
 - `--epochs`: Total training cycles.
@@ -38,14 +68,21 @@ Models are stored in the directory specified by `--dir_output` during training. 
 - **Logs**: TensorBoard logs are saved in the same directory for monitoring performance.
 
 ### File Extensions (.pth vs .ckpt vs .hdf5)
-- **.ckpt (PyTorch Lightning)**: This is the **default format** used in this project. It contains the model weight (`state_dict`), optimizer state, and training metadata.
-- **.pth / .pt (Standard PyTorch)**: If you need to save only the weights for use in a pure PyTorch script (without Lightning), you can extract them from the checkpoint:
-  ```python
-  import torch
-  checkpoint = torch.load("checkpoints/epoch=10.ckpt")
-  torch.save(checkpoint['state_dict'], "model_weights.pth")
-  ```
-- **.hdf5**: This format is popular in Keras/TensorFlow but not standard for saving PyTorch model architectures. While you *could* save weights into an HDF5 structure using `h5py`, it is not recommended for this workflow. Stick to `.ckpt` or `.pth`.
+- **.ckpt (PyTorch Lightning)**: This contains the model weight (`state_dict`), optimizer state, and training metadata.
+- **.pth (Standard PyTorch)**: **Exported automatically after training** as `model.pth`. It contains only the trained weights, making it easier to load in custom scripts.
+- **.hdf5**: Not standard for PyTorch architectures.
+
+---
+
+## 3. Training Analytics (New)
+
+After training completes, the script automatically generates analytics to help you evaluate performance.
+
+### Loss Plots
+A file named `loss_plot.png` is saved in your `--dir_output` folder. This plot shows the evolution of both training and validation loss, helping you identify overfitting or convergence.
+
+### Accuracy
+While accuracy is currently a placeholder in the core loss function, future updates that implement `custom_accuracy` will automatically be reflected in these plots.
 
 ---
 

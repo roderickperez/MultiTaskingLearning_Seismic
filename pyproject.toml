@@ -2,4 +2,23 @@
 name = "multitasklearningseismic"
 version = "0.1.0"
 requires-python = "==3.10.*"
-dependencies = []
+dependencies = [
+    "torch==2.3.0",
+    "torchvision==0.18.0",
+    "torchaudio==2.3.0",
+    "lightning==2.2.4",
+    "torchmetrics==1.4.0",
+    "numpy==1.26.4",
+    "tensorboard==2.16.2",
+    "matplotlib==3.8.4",
+    "scipy==1.13.0",
+    "tqdm==4.66.4",
+    "pypdf==4.1.0",
+    "rich==13.7.1",
+    "questionary==2.0.1",
+    "setuptools==69.5.1",
+]
+
+[tool.uv]
+index-strategy = "unsafe-best-match"
+extra-index-url = ["https://download.pytorch.org/whl/cu121"]

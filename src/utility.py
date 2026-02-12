@@ -37,6 +37,17 @@ def str2bool(v):
 def read_array(filename, shape, dtype=np.float32, totorch=True):
 
     x = np.fromfile(filename, count=np.prod(shape), dtype=dtype)
+    
+    if x.size != np.prod(shape):
+        expected_size = np.prod(shape)
+        expected_shape = shape
+        actual_size = x.size
+        print(f"\n[ERROR] Shape Mismatch in {filename}")
+        print(f"  Expected shape: {expected_shape} -> {expected_size} elements")
+        print(f"  Actual elements read: {actual_size}")
+        print(f"  Implicit Cube Size (if cubic): {int(round(actual_size**(1/3)))}")
+        raise ValueError(f"Cannot reshape array of size {actual_size} into shape {expected_shape}")
+
     x = np.reshape(x, shape[::-1])
     x = np.transpose(x)
 

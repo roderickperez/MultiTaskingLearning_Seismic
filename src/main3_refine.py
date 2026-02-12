@@ -40,6 +40,23 @@ from utility import *
 from model3 import *
 
 #==============================================================================
+class HistoryCallback(pl.Callback):
+    def __init__(self):
+        super().__init__()
+        self.history = {'train_loss': [], 'val_loss': []}
+
+    def on_train_epoch_end(self, trainer, pl_module):
+        metrics = trainer.logged_metrics
+        if 'train_loss' in metrics:
+            self.history['train_loss'].append(metrics['train_loss'].item())
+
+    def on_validation_epoch_end(self, trainer, pl_module):
+        metrics = trainer.logged_metrics
+        if 'val_loss' in metrics:
+            # Skip the initial validation check if it hasn't finished a real epoch
+            self.history['val_loss'].append(metrics['val_loss'].item())
+
+#==============================================================================
 parser = argparse.ArgumentParser(description='MTR-Net options')
 parser.add_argument('--ntrain', type=int, default=1000, help='training size')
 parser.add_argument('--nvalid', type=int, default=100, help='validation size')
@@ -316,11 +333,12 @@ if __name__ == '__main__':
                                               save_top_k=opts.epochs,
                                               save_last=True)
 
+        history_callback = HistoryCallback()
         params = {
             'max_epochs': opts.epochs,
             'default_root_dir': opts.dir_output,
             'logger': logger,
-            'callbacks': [checkpoint_callback]
+            'callbacks': [checkpoint_callback, history_callback]
         }
         if torch.cuda.is_available():
             params['devices'] = opts.gpus_per_node
@@ -350,6 +368,34 @@ if __name__ == '__main__':
             trainer.fit(net, train_loader, valid_loader, ckpt_path=opts.resume)
         else:
             trainer.fit(net, train_loader, valid_loader)
+
+        # Post-training plotting
+        history = history_callback.history
+        if history['train_loss'] or history['val_loss']:
+            plt.figure(figsize=(10, 6))
+            if history['train_loss']:
+                plt.plot(history['train_loss'], label='Train Loss')
+            if history['val_loss']:
+                # validation often runs once at start, might be longer than train_loss if not careful
+                v_loss = history['val_loss']
+                if len(v_loss) > len(history['train_loss']):
+                    v_loss = v_loss[1:] # Drop the initial validation sanity check if needed
+                plt.plot(v_loss, label='Val Loss')
+            
+            plt.title('Training and Validation Loss')
+            plt.xlabel('Epochs')
+            plt.ylabel('Loss')
+            plt.legend()
+            plt.grid(True)
+            plot_path = os.path.join(opts.dir_output, 'loss_plot.png')
+            plt.savefig(plot_path)
+            plt.close()
+            print(date_time(), f' >> Loss plot saved to {plot_path}')
+
+        # Default .pth export
+        pth_path = os.path.join(opts.dir_output, 'model.pth')
+        torch.save(net.state_dict(), pth_path)
+        print(date_time(), f' >> Model weights exported to {pth_path}')
 
         print(date_time(), ' >> Training finished')
 
