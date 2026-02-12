@@ -15,6 +15,8 @@ The code is implemented with [PyTorch](https://pytorch.org/) and [PyTorch Lightn
 
 To set up the environment with GPU support and all dependencies, please refer to the [SETUP_GUIDE.md](SETUP_GUIDE.md).
 
+For detailed instructions on retraining models, storage formats, and applying the model to new datasets, see the [MODEL_WORKFLOW_GUIDE.md](MODEL_WORKFLOW_GUIDE.md).
+
 # Use
 The project uses Python scripts for training and inference. While Ruby scripts are provided as wrappers, they are not required.
 
