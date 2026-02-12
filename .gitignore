@@ -1,9 +1,38 @@
-.venv/
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+.venv/
+.env
+.pytest_cache/
 .ipynb_checkpoints/
-data/
+
+# Data and Models
+*.bin
+*.ckpt
+*.model
 *.npy
 *.dat
-*.Zone.Identifier
+result2_infer/
+result3_infer/
+test_output/
+test_output_2d/
 pdf_content.txt
+
+# Inference Results
+test/*.rgt
+test/*.dhr
+test/*.fsem
+test/*.fdip
+test/*.fstrike
+test/*.iter*
+
+# Logs
+lightning_logs/
+tensorboard/
+
+# OS
+.DS_Store
+.vscode/
+.idea/
+*.Zone.Identifier
