@@ -39,3 +39,7 @@ tensorboard/
 
 # Large local seismic files
 data/*.sgy
+*.sgy
+*.segy
+*.seis
+*.sgy.gz
