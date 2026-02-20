@@ -35,14 +35,13 @@ This automatically handles environment activation for a single command.
 uv run python interactive_train.py
 ```
 
-#### Option 2: Manual Activation
-If you prefer to activate the environment once and run commands normally:
+#### Option 2: Sync environment and run
+If you want to ensure dependencies are synchronized before running:
 ```bash
-# Activate the environment
-source .venv/bin/activate
+uv sync
 
 # Run the script directly
-python interactive_train.py
+uv run python interactive_train.py
 ```
 
 ### Features

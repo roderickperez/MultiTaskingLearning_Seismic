@@ -36,3 +36,6 @@ tensorboard/
 .vscode/
 .idea/
 *.Zone.Identifier
+
+# Large local seismic files
+data/*.sgy

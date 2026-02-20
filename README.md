@@ -17,6 +17,24 @@ To set up the environment with GPU support and all dependencies, please refer to
 
 For detailed instructions on retraining models, storage formats, and applying the model to new datasets, see the [MODEL_WORKFLOW_GUIDE.md](MODEL_WORKFLOW_GUIDE.md).
 
+# Latest Updates (2026-02)
+
+- Added notebook-first SGY inference workflow in [inference_main3_sgy.ipynb](inference_main3_sgy.ipynb) with:
+    - explicit runtime checks,
+    - full-volume output saving (`.npy` + project-compatible binary suffixes),
+    - 3-column preview (`seismic`, `fault prediction`, `overlay`) with shared colorbar and consistent panel geometry.
+- Added from-scratch training notebooks:
+    - [train_main3_from_scratch.ipynb](train_main3_from_scratch.ipynb)
+    - [train_new_model_from_scratch.ipynb](train_new_model_from_scratch.ipynb)
+- Added paper-alignment and data audit flow to notebook training, including:
+    - exact path inventory for train/test/config/paper resources,
+    - verification of expected multi-task files (`rgt`, `dhr`, `fsem`, `fdip`, `fstrike`),
+    - explicit MTI/MTR command generation for GPU execution.
+
+## Important Note on Current Local Data
+
+The bundled demo data under `train/dataset3` and `train/dataset2` is intentionally minimal (typically 1 train sample + 1 validation sample). This is enough to verify pipeline execution, but not enough to match paper-scale field generalization quality.
+
 # Use
 The project uses Python scripts for training and inference. While Ruby scripts are provided as wrappers, they are not required.
 

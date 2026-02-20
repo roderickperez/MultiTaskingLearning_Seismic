@@ -8,13 +8,12 @@ We use `uv` for fast environment management and dependency installation.
 
 ### 1. Initialize the Environment
 ```bash
-uv venv --python 3.10
-source .venv/bin/activate
+uv sync
 ```
 
 ### 2. Install Dependencies
 ```bash
-uv pip install -r requirements.txt
+uv sync
 ```
 
 ## Running the Code
@@ -22,7 +21,7 @@ uv pip install -r requirements.txt
 ### Training (2D Example)
 To start a training run on the provided 2D example data:
 ```bash
-python src/main2_infer.py \
+uv run python src/main2_infer.py \
     --ntrain=1 --nvalid=1 --n1=360 --n2=256 \
     --batch_train=1 --batch_valid=1 --epochs=100 \
     --gpus_per_node=1 \
@@ -36,7 +35,7 @@ python src/main2_infer.py \
 ### Inference (2D Example)
 Once you have a trained model (e.g., `result2_infer/last.ckpt`):
 ```bash
-python src/main2_infer.py \
+uv run python src/main2_infer.py \
     --gpus_per_node=1 \
     --model=result2_infer/last.ckpt \
     --n1=256 --n2=1024 \

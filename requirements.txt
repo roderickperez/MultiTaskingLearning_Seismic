@@ -1,19 +1,22 @@
-# Core GPU Stack
+# GPU PyTorch wheels (CUDA 12.1)
 --extra-index-url https://download.pytorch.org/whl/cu121
 torch==2.3.0+cu121
 torchvision==0.18.0+cu121
 torchaudio==2.3.0+cu121
 
-# Lightning & Metrics
+# Core training/inference stack
 lightning==2.2.4
 torchmetrics==1.4.0
-
-# General Utilities
 numpy==1.26.4
-tensorboard==2.16.2
-matplotlib==3.8.4
 scipy==1.13.0
+matplotlib==3.8.4
 tqdm==4.66.4
-pypdf==4.1.0
+tensorboard==2.16.2
+segyio==1.9.13
+
+# CLI + notebook tooling
 rich==13.7.1
 questionary==2.0.1
+ipython==8.12.3
+ipykernel==6.29.5
+ipywidgets==8.1.3

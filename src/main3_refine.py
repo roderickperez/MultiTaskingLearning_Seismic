@@ -340,11 +340,14 @@ if __name__ == '__main__':
             'logger': logger,
             'callbacks': [checkpoint_callback, history_callback]
         }
-        if torch.cuda.is_available():
+        if torch.cuda.is_available() and opts.gpus_per_node >= 1:
             params['devices'] = opts.gpus_per_node
             params['num_nodes'] = opts.nodes
             params['accelerator'] = 'gpu'
             params['strategy'] = 'ddp'
+        else:
+            params['accelerator'] = 'cpu'
+            params['devices'] = 1
 
         trainer = pl.Trainer(**params)
 
